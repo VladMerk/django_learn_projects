@@ -1,0 +1,59 @@
+version: '3'
+
+networks:
+  db_net:
+
+volumes:
+  db_vol:
+  pg_admin_vol:
+
+services:
+  db:
+    image: postgres:14
+    container_name: postgres
+    restart: always
+    env_file: db.env
+    networks:
+      db_net:
+    ports:
+      - "5454:5432"
+    volumes:
+      - db_vol:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -d $${POSTGRES_DB} -U $${POSTGRES_USER}"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
+  pg_admin:
+    image: dpage/pgadmin4
+    container_name: pgadmin4
+    restart: always
+    env_file: pgadmin.env
+    networks:
+      db_net:
+    ports:
+      - "8082:80"
+    volumes:
+      - pg_admin_vol:/val/lib/pgadmin
+    depends_on:
+      db:
+        condition: service_healthy
+
+  web:
+    build: .
+    image: findroute
+    container_name: travel
+    volumes:
+      - ./src:/app
+    ports:
+      - "8000:8000"
+    restart: always
+    env_file:
+      - web.env
+    command: python manage.py runserver 0.0.0.0:8000
+    networks:
+      db_net:
+    depends_on:
+      db:
+        condition: service_healthy
