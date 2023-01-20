@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+
+{% block title %}Список городов{% endblock title %}
+
+{% block content %}
+    <h1 class="my-2">Список городов</h1>
+
+    <div class="row">
+        <div class="col-md-10 mx-auto my-2">
+            <table class="table table-striped">
+                {% for object in object_list %}
+                <tr>
+                    <td>
+                        <a href=" {% url 'cities:detail' pk=object.pk %} ">{{object.name}}</a>
+                    </td>
+                    <td>
+                        <a href="{% url 'cities:update' pk=object.pk %}">
+                            <button class="btn btn-success">Редактировать</button>
+                        </a>
+                    </td>
+                    <td>
+                        <a href="{% url 'cities:delete' pk=object.pk %}">
+                            <button class="btn btn-danger">Удалить</button>
+                        </a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <nav aria-label="Pagination">
+                <ul class="pagination justify-content-center">
+                  {% if page_obj.has_previous %}
+                    <li class="page-item"><a href="?page={{page_obj.previous_page_number}}" class="page-link">&laquo;</a></li>
+                  {% else %}
+                    <li class="page-item"><a href="#" class="page-link disabled">&laquo;</a></li>
+                  {% endif %}
+
+                  {% for page in page_obj.paginator.page_range %}
+                    <li class="page-item {% if page == page_obj.number %} active {% endif %}">
+                        <a class="page-link" href="?page={{page}}">{{page}}</a>
+                    </li>
+                  {% endfor %}
+
+                  {% if page_obj.has_next %}
+                    <li class="page-item"><a href="?page={{page_obj.next_page_number}}" class="page-link">&raquo;</a></li>
+                  {% else %}
+                    <li class="page-item"><a href="#" class="page-link disabled">&raquo;</a></li>
+                  {% endif %}
+
+                  </li>
+                </ul>
+              </nav>
+        </div>
+    </div>
+
+    {% url 'cities:create' as add_city %}
+    {% include 'cities/form.html' with button="Сохранить город" action=add_city %}
+
+    {% comment %} <div class="row">
+        <div class="col-md-4">
+            <form action=" {% url 'cities:create' %} " method="post">
+                {% csrf_token %}
+                {{form.as_p}}
+                <button type="submit" class="btn btn-primary">Сохранить</button>
+            </form>
+        </div>
+    </div> {% endcomment %}
+{% endblock content %}
