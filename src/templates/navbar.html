@@ -1,4 +1,8 @@
 {% url 'cities:index' as cities_index_url %}
+{% url 'cities:create' as cities_create_url %}
+{% url 'trains:index' as trains_index_url %}
+{% url 'trains:create' as trains_create_url %}
+
 <nav class="navbar navbar-expand-lg container" style="background-color: #e3f2fd;">
   <div class="container-fluid">
     <a class="navbar-brand" href=" {% url 'cities:index' %} ">FindRoute</a>
@@ -11,19 +15,19 @@
           <a class="nav-link {% if request.path == cities_index_url %}active{% endif %}" aria-current="page" href=" {% url 'cities:index' %} ">Города</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">Features</a>
+          <a class="nav-link {% if request.path == trains_index_url %}active{% endif %}" href="{% url 'trains:index' %}">Поезда</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="#">Pricing</a>
         </li>
-        <li class="nav-item dropdown">
+
+        <li class="nav-item dropdown {% if request.path == trains_create_url or request.path == cities_create_url %}active{% endif %}">
           <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            Dropdown link
+            Добавить
           </a>
           <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="#">Action</a></li>
-            <li><a class="dropdown-item" href="#">Another action</a></li>
-            <li><a class="dropdown-item" href="#">Something else here</a></li>
+            <li><a class="dropdown-item" href="{% url 'cities:create' %}">Новый город</a></li>
+            <li><a class="dropdown-item" href="{% url 'trains:create' %}">Новый поезд</a></li>
           </ul>
         </li>
       </ul>
