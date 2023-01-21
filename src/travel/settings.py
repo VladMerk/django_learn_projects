@@ -26,10 +26,11 @@ SECRET_KEY = os.environ.get("DJANGO_SECRET")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["*"]
+ALLOWED_HOSTS = ["0.0.0.0"]
 
 INTERNAL_IPS = [
-    "127.0.0.1",
+    # "127.0.0.1",
+    "0.0.0.0",
 ]
 
 # Application definition
@@ -43,6 +44,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'debug_toolbar',
     'cities.apps.CitiesConfig',
+    'trains.apps.TrainsConfig',
 ]
 
 MIDDLEWARE = [
