@@ -15,7 +15,7 @@ class Trains(models.Model):
                                     )
 
     def __str__(self):
-        return f"Поезд №{self.name} из города {self.from_city}"
+        return f"Поезд №:{self.name} из города {self.from_city}"
 
     def clean(self):
         if self.from_city == self.to_city:
@@ -24,7 +24,7 @@ class Trains(models.Model):
         qs = Trains.objects.filter(
             from_city=self.from_city, to_city=self.to_city,
             travel_time=self.travel_time).exclude(pk=self.pk)
-            
+
         # Trains == self.__class__
         if qs.exists():
             raise ValidationError("Изменить время в пути")
