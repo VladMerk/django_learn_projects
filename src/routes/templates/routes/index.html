@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+{% block title %}Поиск маршрута{% endblock title %}
+{% block css_link %}
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+{% endblock css_link %}
+{% block content %}
+
+    <h1 class="my-2">Поиск маршрута</h1>
+    <div class="row">
+        <div class="col-md-8 mx-auto">
+            {% if routes %}
+                <h3>Маршрут{% if routes|length != 1 %}ы{% endif %} из г.{{cities.from_city.name}} в г.{{cities.to_city.name}}</h3>
+                {% for route in routes %}
+                    <form action=" {% url 'add_route' %} " method="post">
+                        {% csrf_token %}
+                        <input type="hidden" name="from_city" value="{{cities.from_city.id}}">
+                        <input type="hidden" name="to_city" value="{{cities.to_city.id}}">
+                        <input type="hidden" name="total_time" value="{{route.total_time}}">
+                        <input type="hidden" name="trains"
+                                 value="{% for train in route.trains %}{{train.id}},{% endfor %}">
+                    {% if forloop.first %} <h4>Самый короткий маршрут</h4> {% endif %}
+                    <h5>Время в пути: {{route.total_time}}</h5><br>
+                        <table class="table">
+                            <tr>
+                                <thead>
+                                    <tr>
+                                        <th scope="col">#</th>
+                                        <th scope="col">Список поездов по маршруту</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for train in route.trains %}
+                                        <tr>
+                                            <th scope='row'>{{forloop.counter}}</th>
+                                            <td>Поезд <b>{{train.name}}</b> из г.{{train.from_city.name}} в г.{{train.to_city.name}} </td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </tr>
+                        </table>
+                        <button type="submit" class="btn btn-success">Сохранить</button>
+                    </form>
+                {% endfor %}
+            {% endif %}
+        </div>
+    </div>
+    {% url 'find_routes' as action %}
+    <div class="row">
+        <div class="col-md-10 mx-auto my-2">
+            {% include 'routes/form.html' with button='Найти' action=action %}
+        </div>
+    </div>
+
+{% endblock content %}
+{% block javascript %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('.js-example-basic-single').select2();
+            $('.js-example-basic-multiple').select2();
+        });
+    </script>
+{% endblock javascript %}

@@ -2,10 +2,11 @@
 {% url 'cities:create' as cities_create_url %}
 {% url 'trains:index' as trains_index_url %}
 {% url 'trains:create' as trains_create_url %}
+{% url 'list' as route_list %}
 
 <nav class="navbar navbar-expand-lg container" style="background-color: #e3f2fd;">
   <div class="container-fluid">
-    <a class="navbar-brand" href=" {% url 'cities:index' %} ">FindRoute</a>
+    <a class="navbar-brand" href=" {% url 'index' %} ">FindRoute</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -18,7 +19,7 @@
           <a class="nav-link {% if request.path == trains_index_url %}active{% endif %}" href="{% url 'trains:index' %}">Поезда</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">Pricing</a>
+          <a class="nav-link {% if request.path == trains_index_url %}active{% endif %}" href="{% url 'list' %}">Маршруты</a>
         </li>
 
         <li class="nav-item dropdown {% if request.path == trains_create_url or request.path == cities_create_url %}active{% endif %}">
