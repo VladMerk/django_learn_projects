@@ -18,8 +18,7 @@
                         <input type="hidden" name="total_time" value="{{route.total_time}}">
                         <input type="hidden" name="trains"
                                  value="{% for train in route.trains %}{{train.id}},{% endfor %}">
-                    {% if forloop.first %} <h4>Самый короткий маршрут</h4> {% endif %}
-                    <h5>Время в пути: {{route.total_time}}</h5><br>
+                    <h5 class="my-5">Время в пути: <b>{{route.total_time}}</b></h5><br>
                         <table class="table">
                             <tr>
                                 <thead>

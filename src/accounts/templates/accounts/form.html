@@ -1,0 +1,19 @@
+<div class="row">
+    <div class="col-md-6">
+        <form action="{{action}}" method="post">
+            {% csrf_token %}
+            {% for field in form %}
+                {% for error in field.errors %}
+                <div class="alert alert-danger" role="alert">
+                    {{error}}
+                </div>
+                {% endfor %}
+                <label for="{{ field.id_for_label }}" class="form-label">{{field.label}}</label>
+                {{field}}
+                {{field.help_text}}
+            {% endfor %}
+            <button type="submit" class="btn btn-primary my-2">{{button}}</button>
+        </form>
+    </div>
+</div>
+

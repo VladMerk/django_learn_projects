@@ -19,18 +19,30 @@
           <a class="nav-link {% if request.path == trains_index_url %}active{% endif %}" href="{% url 'trains:index' %}">Поезда</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link {% if request.path == trains_index_url %}active{% endif %}" href="{% url 'list' %}">Маршруты</a>
+          <a class="nav-link {% if request.path == route_list %}active{% endif %}" href="{% url 'list' %}">Маршруты</a>
         </li>
-
-        <li class="nav-item dropdown {% if request.path == trains_create_url or request.path == cities_create_url %}active{% endif %}">
-          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            Добавить
-          </a>
-          <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="{% url 'cities:create' %}">Новый город</a></li>
-            <li><a class="dropdown-item" href="{% url 'trains:create' %}">Новый поезд</a></li>
-          </ul>
-        </li>
+        {% if user.is_authenticated %}
+          <li class="nav-item dropdown {% if request.path == trains_create_url or request.path == cities_create_url %}active{% endif %}">
+            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Добавить
+            </a>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="{% url 'cities:create' %}">Новый город</a></li>
+              <li><a class="dropdown-item" href="{% url 'trains:create' %}">Новый поезд</a></li>
+            </ul>
+          </li>
+        {% endif %}
+      </ul>
+    </div>
+    <div class='me-2'>
+      <ul class="navbar-nav">
+        {% if user.is_authenticated %}
+         <li class="nav-item"><a href="{% url 'admin:index' %}" class="nav-link">{{user|title}}</a></li>
+         <li class="nav-item"><a href="{% url 'accounts:logout' %}" class="nav-link">Logout</a></li>
+        {% else %}
+          <li class="nav-item"><a href="{% url 'accounts:login' %}" class="nav-link">Login</a></li>
+          <li class="nav-item"><a href="{% url 'accounts:registration' %}" class="nav-link">Registration</a></li>
+        {% endif %}
       </ul>
     </div>
   </div>
