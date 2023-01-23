@@ -42,14 +42,12 @@ services:
     build: .
     image: vladmerk/findroute
     container_name: travel
-    volumes:
-     - ./src:/app
     ports:
       - "8000:8000"
     restart: always
     env_file:
       - web.env
-    command: python manage.py runserver 0.0.0.0:8000
+    command: gunicorn --bind :8000 --workers 3 travel.wsgi:application
     networks:
       db_net:
     depends_on:
