@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+{% block title %}Форма регистрации{% endblock title %}
+
+{% block content %}
+    <h1>Приветствуем, {{new_user|title}}</h1>
+    
+    <p>Вы зарегистрировались в системе. Теперь Вы можете <a href="{% url 'accounts:login' %}">войти</a></p>
+
+{% endblock content %}

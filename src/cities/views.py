@@ -1,6 +1,7 @@
 # from django.shortcuts import render, get_object_or_404
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, UpdateView, DeleteView, CreateView
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib import messages
 
@@ -25,7 +26,7 @@ class CitiesDetailView(DetailView):
     template_name = 'cities/detail.html'
 
 
-class CitiesCreateView(SuccessMessageMixin, CreateView):
+class CitiesCreateView(SuccessMessageMixin, LoginRequiredMixin, CreateView):
     model = Cities
     form_class = CitiesForm
     template_name = 'cities/create.html'
@@ -33,7 +34,7 @@ class CitiesCreateView(SuccessMessageMixin, CreateView):
     success_message = 'Город успешно добавлен'
 
 
-class CitiesUpdateView(SuccessMessageMixin, UpdateView):
+class CitiesUpdateView(SuccessMessageMixin, LoginRequiredMixin, UpdateView):
     model = Cities
     form_class = CitiesForm
     template_name = 'cities/update.html'
@@ -41,7 +42,7 @@ class CitiesUpdateView(SuccessMessageMixin, UpdateView):
     success_message = 'Город успешно отредактирован'
 
 
-class CitiesDeleteView(DeleteView):
+class CitiesDeleteView(LoginRequiredMixin, DeleteView):
     model = Cities
     template_name = 'cities/delete.html'
     success_url = reverse_lazy('cities:index')

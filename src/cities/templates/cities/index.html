@@ -13,16 +13,18 @@
                     <td>
                         <a href=" {% url 'cities:detail' pk=object.pk %} ">{{object.name}}</a>
                     </td>
-                    <td>
-                        <a href="{% url 'cities:update' pk=object.pk %}">
-                            <button class="btn btn-success">Редактировать</button>
-                        </a>
-                    </td>
-                    <td>
-                        <a href="{% url 'cities:delete' pk=object.pk %}">
-                            <button class="btn btn-danger">Удалить</button>
-                        </a>
-                    </td>
+                    {% if user.is_authenticated %}
+                        <td>
+                            <a href="{% url 'cities:update' pk=object.pk %}">
+                                <button class="btn btn-success">Редактировать</button>
+                            </a>
+                        </td>
+                        <td>
+                            <a href="{% url 'cities:delete' pk=object.pk %}">
+                                <button class="btn btn-danger">Удалить</button>
+                            </a>
+                        </td>
+                    {% endif %}
                 </tr>
                 {% endfor %}
             </table>
@@ -56,17 +58,8 @@
               </nav>
         </div>
     </div>
-
-    {% url 'cities:create' as add_city %}
-    {% include 'cities/form.html' with button="Сохранить город" action=add_city %}
-
-    {% comment %} <div class="row">
-        <div class="col-md-4">
-            <form action=" {% url 'cities:create' %} " method="post">
-                {% csrf_token %}
-                {{form.as_p}}
-                <button type="submit" class="btn btn-primary">Сохранить</button>
-            </form>
-        </div>
-    </div> {% endcomment %}
+    {% if user.is_authenticated %}
+        {% url 'cities:create' as add_city %}
+        {% include 'cities/form.html' with button="Сохранить город" action=add_city %}
+    {% endif %}
 {% endblock content %}
