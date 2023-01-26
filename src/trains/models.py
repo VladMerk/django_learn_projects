@@ -25,7 +25,6 @@ class Trains(models.Model):
             from_city=self.from_city, to_city=self.to_city,
             travel_time=self.travel_time).exclude(pk=self.pk)
 
-        # Trains == self.__class__
         if qs.exists():
             raise ValidationError("Изменить время в пути")
 
