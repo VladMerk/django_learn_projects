@@ -2,5 +2,5 @@
 web.env
 pgadmin.env
 db.env
-.coverage
-htmlcov/
+src/.coverage
+src/htmlcov/

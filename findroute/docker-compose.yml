@@ -1,4 +1,4 @@
-version: '3'
+version: "3"
 
 networks:
   db_net:
@@ -9,7 +9,7 @@ volumes:
 
 services:
   db:
-    image: postgres:14
+    image: postgres:14-alpine
     container_name: postgres
     restart: always
     env_file: db.env
@@ -33,17 +33,17 @@ services:
     ports:
       - "8082:80"
     volumes:
-      - pg_admin_vol:/val/lib/pgadmin
+      - pg_admin_vol:/var/lib/pgadmin
     depends_on:
       db:
         condition: service_healthy
 
   web:
     build: .
-    image: vladmerk/findroute
+    image: vladmerk/findroute:alpine
     container_name: travel
-    volumes:
-     - ./src:/app
+    # volumes:
+    #   - ./src:/app
     ports:
       - "8000:8000"
     restart: always

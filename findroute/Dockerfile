@@ -1,12 +1,13 @@
-FROM python:3
+FROM python:3-alpine
 
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
 
 WORKDIR /app
 
-COPY requirements.txt requirements.txt
+ADD requirements.txt requirements.txt
 
-RUN pip install -U pip && pip install -r requirements.txt
+RUN apk upgrade
+RUN python -m pip install --upgrade pip setuptools && python -m pip install -r requirements.txt
 
 COPY ./src /app/
