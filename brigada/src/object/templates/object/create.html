@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Создать объект{% endblock title %}
+
+{% block content %}
+    <form action="{% url 'object:create' %}" method='post'>
+        {% csrf_token %}
+        {{form.as_p}}
+        <button type="submit" class='btn btn-primary'>Сохранить</button>
+    </form>
+{% endblock content %}
+{% block javascript %}
+    <script src={% static 'js/main.js' %}></script>
+{% endblock javascript %}

@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block title %}Города{% endblock title %}
+
+{% block content %}
+    <div class="col-md-8 mx-auto">
+        <h1>Города</h1>
+        <table class="table table-striped">
+
+            {% for object in object_list %}
+                <tr>
+                    <td>
+                        <a href="{% url 'cities:detail' pk=object.id %}">{{object.name}}</a>
+                    </td>
+                    <td>
+                        <a href="{% url 'cities:delete' pk=object.pk %}"><button class="btn btn-danger">Удалить</button></a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+        {% include "cities/cities_form.html" with button_name="Добавить" action="/cities/create/" %}
+    </div>
+{% endblock content %}

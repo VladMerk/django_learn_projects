@@ -4,3 +4,4 @@
 
 На данный момент в репозитории проекты:
 1. Find Route: [findroute/](findroute/README.md)
+2. Brigada: [brigada/](brigade/../brigada/TEST_TASK.md)

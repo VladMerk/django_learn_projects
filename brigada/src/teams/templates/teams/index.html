@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% block title %}Бригады{% endblock title %}
+{% block content %}
+    <div class="row">
+        <h1>Бригады</h1>
+        <table class="table table-striped">
+            <thead>
+                <th>Город</th>
+                <th>Бригада</th>
+                <th>Количество людей в бригаде</th>
+                <th>ФИО ответственного</th>
+                <th>Должность ответственного</th>
+                <th>Редактировать</th>
+                <th>Удалить</th>
+            </thead>
+            {% for object in object_list %}
+                <tr>
+                    <td>{{object.city}}</td>
+                    <td>{{object.name}}</td>
+                    <td>{{object.amount_people}}</td>
+                    <td>{{object.head}}</td>
+                    <td>{{object.qualification}}</td>
+                    <td><a href="{% url 'teams:update' object.pk %}"><button type='submit' class="btn btn-primary">Редактировать</button></a></td>
+                    <td><a href="{% url 'teams:delete' object.pk %}"><button type='submit' class="btn btn-danger">Удалить</button></a></td>
+                </tr>
+            {% endfor %}
+        </table>
+        <a href="{% url 'teams:create' %}"><button class="btn btn-secondary">Добавить бригаду</button></a>
+    </div>
+{% endblock content %}

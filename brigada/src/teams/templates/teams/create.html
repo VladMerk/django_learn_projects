@@ -1,0 +1,8 @@
+{% extends 'base.html' %}
+{% block title %}Добавление бригады{% endblock title %}
+{% block content %}
+<div class="col-md-8 mx-auto">
+    <h1>Добавление бригады</h1>
+    {% include 'teams/teams_form.html' with button_name="Добавить" %}
+  </div>
+{% endblock content %}

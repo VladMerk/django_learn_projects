@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+{% block title %}Добавление города{% endblock title %}
+{% block content %}
+<div class="col-md-8 mx-auto">
+  <h1>Добавление города</h1>
+  {% include 'cities/cities_form.html' with button_name="Добавить" %}
+</div>
+
+{% endblock content %}
