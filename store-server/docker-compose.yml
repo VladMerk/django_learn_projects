@@ -1,0 +1,18 @@
+version: '3'
+
+networks:
+  store_net:
+
+services:
+  web:
+    build: .
+    image: store:alpine
+    container_name: store
+    networks:
+      store_net:
+    volumes:
+      - ./src:/usr/src
+    restart: always
+    ports:
+      - "8000:8000"
+    command: python manage.py runserver 0.0.0.0:8000
