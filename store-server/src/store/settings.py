@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 
 import os
 from pathlib import Path
+
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -30,6 +31,8 @@ SECRET_KEY = os.getenv('Django_secret')
 DEBUG = True
 
 ALLOWED_HOSTS = ["*"]
+
+DOMAIN_NAME = 'http://localhost:8000'
 
 
 # Application definition
@@ -69,6 +72,7 @@ TEMPLATES = [
                 "django.template.context_processors.request",
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
+                "products.context_processors.baskets",
             ],
         },
     },
@@ -138,3 +142,9 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 # Users
 AUTH_USER_MODEL = 'users.User'
 LOGIN_URL = '/users/login/'
+LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/'
+
+
+# Sending emails
+EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"

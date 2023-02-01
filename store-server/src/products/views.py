@@ -1,30 +1,35 @@
-from django.shortcuts import render, HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
 from django.db.models import Count
+from django.shortcuts import HttpResponseRedirect
+from django.views.generic.base import TemplateView
+from django.views.generic.list import ListView
 
-from products.models import Product, ProductCategory, Basket
-from users.models import User
-from django.core.paginator import Paginator
-
-
-def index(request):
-    return render(request, 'products/index.html')
+from products.models import Basket, Product, ProductCategory
+from store.common.views import TitleMixin
 
 
-def products(request, category_id=None, page_number=1):
+class IndexView(TitleMixin, TemplateView):
+    template_name = 'products/index.html'
+    title = 'Store'
 
-    products = Product.objects.filter(category_id=category_id) if category_id else Product.objects.all()
-    paginator = Paginator(products, per_page=3)
-    products_paginator = paginator.page(page_number)
-    context = {
-        'title': 'Store - Каталог',
-        'categories': (ProductCategory.objects
-                                    .annotate(product_count=Count('product__id'))
-                                    .filter(product_count__gt=0)
-                                    .values('id', 'name')),
-        'products': products_paginator,
-        }
-    return render(request, 'products/products.html', context=context)
+
+class ProductListView(TitleMixin, ListView):
+    model = Product
+    template_name = 'products/products.html'
+    paginate_by = 3
+    title = 'Store - Каталог'
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        category_id = self.kwargs.get('category_id')
+        return queryset.filter(category_id=category_id) if category_id else queryset
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['categories'] = (ProductCategory.objects.annotate(product_count=Count('product__id'))
+                                 .filter(product_count__gt=0)
+                                 .values('id', 'name'))
+        return context
 
 
 @login_required
@@ -40,6 +45,7 @@ def basket_add(request, product_id):
         basket.save()
 
     return HttpResponseRedirect(request.META['HTTP_REFERER'])
+
 
 @login_required
 def basket_remove(request, basket_id):
