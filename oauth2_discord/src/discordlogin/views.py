@@ -4,6 +4,7 @@ from django.http import HttpRequest, HttpResponse, JsonResponse
 from django.shortcuts import redirect, render
 from django.urls import reverse
 from requests import Session
+from django.conf import settings
 
 auth_url_discord = "https://discord.com/api/oauth2/authorize?client_id=1023904638992396330&redirect_uri=http%3A%2F%2Flocalhost%3A8000%2Foauth2%2Flogin%2Fredirect%2F&response_type=code&scope=identify"
 
@@ -38,14 +39,8 @@ def get_authenticated_user(request: HttpRequest):
 
 def discord_login_redirect(request: HttpRequest):
     code = request.GET.get("code")
-    print(code)
-    try:
-        del request.session["access_token"]
-    except Exception:
-        print("Nope....")
     user = exchange_code(code)
     discord_user = authenticate(request=request, user=user)
-    print(discord_user)
     discord_user = list(discord_user).pop()
     login(request=request, user=discord_user)
     return redirect(reverse('auth_user'))
@@ -53,8 +48,8 @@ def discord_login_redirect(request: HttpRequest):
 
 def exchange_code(code: str):
     data = {
-        "client_id": "1023904638992396330",
-        "client_secret": "kMzetbiamVtt7dJL3IyUkW5WexP-xO8X",
+        "client_id": settings.CLIENT_ID,
+        "client_secret": settings.CLIENT_SECRET,
         "grant_type": "authorization_code",
         "code": code,
         "redirect_uri": "http://localhost:8000/oauth2/login/redirect/",
