@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 
 import os
 from pathlib import Path
+
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -20,8 +21,8 @@ load_dotenv()
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-CLIENT_ID = str(os.getenv('client_id'))
-CLIENT_SECRET = str(os.getenv('client_secret'))
+CLIENT_ID = str(os.getenv("client_id"))
+CLIENT_SECRET = str(os.getenv("client_secret"))
 
 
 # Quick-start development settings - unsuitable for production
@@ -32,7 +33,7 @@ SECRET_KEY = os.getenv("SECRET_KEY")
 
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.getenv('DEBUG')
+DEBUG = os.getenv("DEBUG")
 
 ALLOWED_HOSTS = []
 
@@ -134,6 +135,4 @@ STATIC_URL = "static/"
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-AUTHENTICATION_BACKENDS = [
-    "discordlogin.auth.DiscordAuthenticationBackend"
-]
+AUTHENTICATION_BACKENDS = ["discordlogin.auth.DiscordAuthenticationBackend"]
