@@ -7,10 +7,7 @@ from django.urls import reverse
 from requests import Session
 
 auth_url_discord = (
-    "https://discord.com/api/oauth2/authorize?"
-    + "client_id=1023904638992396330&"
-    + "redirect_uri=http%3A%2F%2Flocalhost%3A8000%2Foauth2%2Flogin%2Fredirect%2F&"
-    + "response_type=code&scope=identify"
+    "https://discord.com/api/oauth2/authorize?client_id=1023904638992396330&redirect_uri=http%3A%2F%2Flocalhost%3A8000%2Foauth2%2Flogin%2Fredirect%2F&response_type=code&scope=identify"
 )
 
 
